@@ -13,7 +13,6 @@ const https = require('https');
 // Quick start: GITHUB_TOKEN=ghp_xxx node server.js
 // ─────────────────────────────────────────────────────────────
 
-// Load .env if present
 const envFile = path.join(__dirname, '.env');
 if (fs.existsSync(envFile)) {
   fs.readFileSync(envFile, 'utf8').split('\n').forEach(line => {
@@ -81,22 +80,35 @@ async function commitFileToGitHub(src, sha, message) {
 
 function parseContent(src) {
   const code = src.replace(/Object\.assign\s*\(\s*window[^)]*\)\s*;?\s*$/, '');
-  // eslint-disable-next-line no-new-func
-  return new Function(`${code}; return { SITE, ESSAYS, PROJECTS, EXPERIENCE, NOW, READING, CONTACT };`)();
+  // Gracefully handle both old (NOW/READING) and new (ACADEMICS/LOGS) structure
+  return new Function(`
+    ${code}
+    return {
+      SITE,
+      ESSAYS,
+      PROJECTS,
+      EXPERIENCE,
+      ACADEMICS: typeof ACADEMICS !== 'undefined' ? ACADEMICS : [],
+      LOGS: typeof LOGS !== 'undefined' ? LOGS
+            : typeof READING !== 'undefined' ? READING
+            : [],
+      CONTACT,
+    };
+  `)();
 }
 
 function serializeContent(data) {
   const j = v => JSON.stringify(v, null, 2);
   return [
-    "// Content for the site. Edit this freely — it's the easiest place to update text.\n",
+    "// Content — edit freely. This is the only file you need to touch for site data.\n",
     `const SITE = ${j(data.SITE)};`,
     `const ESSAYS = ${j(data.ESSAYS)};`,
     `const PROJECTS = ${j(data.PROJECTS)};`,
     `const EXPERIENCE = ${j(data.EXPERIENCE)};`,
-    `const NOW = ${j(data.NOW)};`,
-    `const READING = ${j(data.READING)};`,
+    `const ACADEMICS = ${j(data.ACADEMICS)};`,
+    `const LOGS = ${j(data.LOGS)};`,
     `const CONTACT = ${j(data.CONTACT)};`,
-    'Object.assign(window, { SITE, ESSAYS, PROJECTS, EXPERIENCE, NOW, READING, CONTACT });\n',
+    'Object.assign(window, { SITE, ESSAYS, PROJECTS, EXPERIENCE, ACADEMICS, LOGS, CONTACT });\n',
   ].join('\n\n');
 }
 
@@ -125,7 +137,7 @@ const server = http.createServer(async (req, res) => {
     res.end(JSON.stringify(obj));
   };
 
-  // GET /api/content — fetch from GitHub and parse
+  // GET /api/content
   if (u.pathname === '/api/content' && req.method === 'GET') {
     try {
       if (!GITHUB_TOKEN) return json(400, { error: 'GITHUB_TOKEN not set. Add it to repocraft/.env' });
@@ -136,15 +148,16 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // POST /api/content — serialize and commit to GitHub
+  // POST /api/content — serialize and commit
   if (u.pathname === '/api/content' && req.method === 'POST') {
     try {
       if (!GITHUB_TOKEN) return json(400, { error: 'GITHUB_TOKEN not set.' });
       const body = JSON.parse(await readBody(req));
-      const { __sha, ...data } = body;
+      const { __sha, __msg, ...data } = body;
       if (!__sha) return json(400, { error: 'Missing __sha — reload and try again.' });
+      const message = (__msg || '').trim() || 'repocraft: update content';
       const src = serializeContent(data);
-      const result = await commitFileToGitHub(src, __sha, 'repocraft: update content');
+      const result = await commitFileToGitHub(src, __sha, message);
       json(200, { ok: true, sha: result.content?.sha });
     } catch (e) { json(500, { error: e.message }); }
     return;

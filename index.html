@@ -38,6 +38,14 @@ body { font-family: var(--font); font-size: 14px; background: var(--bg); color: 
 .brand { font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
 .brand-dot { color: var(--accent); }
 .topbar-path { font-size: 12px; color: var(--ink-faint); font-style: italic; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar-path a { color: var(--ink-faint); text-decoration: none; }
+.topbar-path a:hover { color: var(--accent); }
+.site-link {
+  font-size: 12px; color: var(--ink-faint); text-decoration: none;
+  padding: 4px 10px; border: 1px solid var(--rule); border-radius: 4px;
+  transition: all 150ms;
+}
+.site-link:hover { color: var(--accent); border-color: var(--accent); }
 .save-btn {
   padding: 5px 14px; border-radius: 4px; font-size: 12px; font-family: var(--font);
   cursor: pointer; border: 1px solid var(--rule); background: transparent;
@@ -98,11 +106,20 @@ body { font-family: var(--font); font-size: 14px; background: var(--bg); color: 
 }
 .list-item:hover { background: var(--bg-soft); color: var(--ink); }
 .list-item.sel { background: var(--accent-light); color: var(--accent); font-weight: 600; border-left: 2px solid var(--accent); padding-left: 14px; }
-.list-empty { padding: 20px 16px; color: var(--ink-faint); font-style: italic; font-size: 13px; }
+.list-empty {
+  padding: 28px 16px; color: var(--ink-faint); font-style: italic; font-size: 13px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;
+}
+.list-empty-hint { font-size: 11px; color: var(--ink-faint); opacity: 0.7; }
 
 .detail-pane { flex: 1; padding: 22px 26px; overflow-y: auto; }
 .simple-pane { flex: 1; padding: 22px 26px; overflow-y: auto; max-width: 580px; }
-.detail-empty { display: flex; align-items: center; justify-content: center; flex: 1; color: var(--ink-faint); font-style: italic; font-size: 14px; }
+.detail-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex: 1; gap: 8px; color: var(--ink-faint);
+}
+.detail-empty p { font-style: italic; font-size: 14px; }
+.detail-empty span { font-size: 12px; opacity: 0.65; }
 
 /* ── Section header ── */
 .sec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
@@ -122,6 +139,7 @@ body { font-family: var(--font); font-size: 14px; background: var(--bg); color: 
 .field textarea { resize: vertical; min-height: 70px; line-height: 1.55; }
 .field-row { display: flex; gap: 12px; }
 .field-row .field { flex: 1; }
+.field-hint { font-size: 10px; color: var(--ink-faint); margin-top: 4px; font-style: italic; }
 
 /* ── Buttons ── */
 .del-btn { padding: 4px 10px; border: 1px solid #ddb0a0; border-radius: 4px; color: var(--danger); background: transparent; cursor: pointer; font-family: var(--font); font-size: 12px; }
@@ -132,17 +150,18 @@ body { font-family: var(--font); font-size: 14px; background: var(--bg); color: 
 .text-btn:hover { color: #6a2810; }
 .icon-btn { width: 22px; height: 22px; border: 1px solid var(--rule); border-radius: 3px; background: transparent; cursor: pointer; color: var(--ink-faint); font-size: 14px; line-height: 1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .icon-btn:hover { color: var(--danger); border-color: var(--danger); }
+.preview-btn {
+  padding: 4px 10px; border: 1px solid var(--rule); border-radius: 4px;
+  background: transparent; cursor: pointer; font-family: var(--font); font-size: 12px;
+  color: var(--ink-faint); text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+  transition: all 150ms;
+}
+.preview-btn:hover { color: var(--accent); border-color: var(--accent); }
 
 /* ── Body (paragraphs) editor ── */
 .para-item { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
 .para-item textarea { flex: 1; min-height: 60px; }
-
-/* ── Now blocks ── */
-.now-block { border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; margin-bottom: 14px; background: var(--paper); }
-.now-block-head { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
-.now-block-head input { flex: 1; font-family: var(--font); font-size: 13px; font-weight: 600; padding: 5px 8px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--ink); outline: none; }
-.now-block-head input:hover { border-color: var(--rule); }
-.now-block-head input:focus { border-color: var(--accent); background: var(--paper); box-shadow: 0 0 0 2px var(--accent-light); }
+.word-count { font-size: 10px; color: var(--ink-faint); margin-top: 6px; font-style: italic; }
 
 /* ── Book rows ── */
 .book-row { display: flex; gap: 7px; align-items: center; margin-bottom: 6px; }
@@ -150,7 +169,12 @@ body { font-family: var(--font); font-size: 14px; background: var(--bg); color: 
 .book-row input:focus { border-color: var(--accent); }
 .book-row .title { flex: 2; }
 .book-row .author { flex: 1.2; }
-.book-row .note { flex: 0 0 80px; }
+.book-row .note { flex: 0 0 100px; }
+.book-col-head { display: flex; gap: 7px; margin-bottom: 4px; padding-right: 30px; }
+.book-col-head span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); font-weight: 600; }
+.book-col-head .t { flex: 2; }
+.book-col-head .a { flex: 1.2; }
+.book-col-head .n { flex: 0 0 100px; }
 
 /* ── Contact rows ── */
 .contact-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
@@ -165,6 +189,33 @@ body { font-family: var(--font); font-size: 14px; background: var(--bg); color: 
 .contact-header .v { flex: 1.2; }
 .contact-header .h { flex: 1.5; }
 
+/* ── Commit modal ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(28, 24, 18, 0.35);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+  animation: fadein 120ms ease;
+}
+.modal {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 22px 24px; width: 400px;
+  box-shadow: 0 12px 48px rgba(28, 24, 18, 0.22);
+}
+.modal h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.modal p { font-size: 12px; color: var(--ink-faint); margin-bottom: 16px; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+.btn-cancel {
+  padding: 6px 14px; border: 1px solid var(--rule); border-radius: 4px;
+  background: transparent; cursor: pointer; font-family: var(--font); font-size: 13px; color: var(--ink-soft);
+}
+.btn-cancel:hover { border-color: var(--ink-soft); }
+.btn-commit {
+  padding: 6px 16px; background: var(--accent); color: #fff; border: none;
+  border-radius: 4px; cursor: pointer; font-family: var(--font); font-size: 13px; font-weight: 600;
+}
+.btn-commit:disabled { opacity: 0.6; cursor: default; }
+
 /* ── Toast ── */
 .toast {
   position: fixed; bottom: 20px; right: 20px;
@@ -175,6 +226,7 @@ body { font-family: var(--font); font-size: 14px; background: var(--bg); color: 
 .toast.ok { background: #27522a; color: #fff; }
 .toast.err { background: var(--danger); color: #fff; }
 @keyframes slideUp { from { transform: translateY(6px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes fadein  { from { opacity: 0; } to { opacity: 1; } }
 
 .loading { display: flex; align-items: center; justify-content: center; height: 100vh; color: var(--ink-faint); font-style: italic; }
 </style>
@@ -184,9 +236,33 @@ body { font-family: var(--font); font-size: 14px; background: var(--bg); color: 
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
-/* ─── Shared helpers ─────────────────────────────────────────── */
+/* ─── Utilities ──────────────────────────────────────────────── */
 
-function Field({ label, value, onChange, type = 'input', rows = 3, placeholder = '' }) {
+function toSlug(s) {
+  return s.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '') // strip accents
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+function toDateLabel(dateStr) {
+  if (!dateStr || dateStr.length < 7) return '';
+  const d = new Date(dateStr + 'T12:00:00');
+  if (isNaN(d)) return '';
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
+function wordCount(paragraphs) {
+  const total = (paragraphs || []).join(' ').trim().split(/\s+/).filter(Boolean).length;
+  const mins = Math.max(1, Math.round(total / 200));
+  return `${total} words · ~${mins} min read`;
+}
+
+/* ─── Shared components ──────────────────────────────────────── */
+
+function Field({ label, value, onChange, type = 'input', rows = 3, placeholder = '', hint = '' }) {
   return (
     <div className="field">
       <label>{label}</label>
@@ -194,6 +270,7 @@ function Field({ label, value, onChange, type = 'input', rows = 3, placeholder =
         ? <textarea value={value} onChange={e => onChange(e.target.value)} rows={rows} placeholder={placeholder} />
         : <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} />
       }
+      {hint && <div className="field-hint">{hint}</div>}
     </div>
   );
 }
@@ -203,37 +280,46 @@ function BodyEditor({ paragraphs, onChange }) {
   const remove = (i) => onChange(paragraphs.filter((_, j) => j !== i));
   return (
     <div className="field">
-      <label>Body paragraphs</label>
+      <label>Body</label>
       {paragraphs.map((p, i) => (
         <div className="para-item" key={i}>
           <textarea value={p} onChange={e => update(i, e.target.value)} rows={3} placeholder={`Paragraph ${i + 1}`} />
-          <button className="icon-btn" onClick={() => remove(i)} title="Remove">×</button>
+          <button className="icon-btn" onClick={() => remove(i)} title="Remove paragraph">×</button>
         </div>
       ))}
       <button className="text-btn" onClick={() => onChange([...paragraphs, ''])}>+ Add paragraph</button>
+      <div className="word-count">{wordCount(paragraphs)}</div>
     </div>
   );
 }
 
-function ListDetail({ items, getLabel, sel, onSel, onAdd, sectionTitle, children }) {
+function ListDetail({ items, getLabel, sel, onSel, onAdd, sectionTitle, emptyMsg, children }) {
   return (
     <div className="list-detail">
       <div className="list-pane">
         <div className="list-pane-head">
           <h2>{sectionTitle}</h2>
-          <button className="add-btn" onClick={onAdd} title="Add">+</button>
+          <button className="add-btn" onClick={onAdd} title={`Add ${sectionTitle.toLowerCase()}`}>+</button>
         </div>
         <div className="list-scroll">
-          {items.length === 0 && <div className="list-empty">None yet</div>}
-          {items.map((item, i) => (
-            <div key={i} className={`list-item ${sel === i ? 'sel' : ''}`} onClick={() => onSel(i)}>
-              {getLabel(item, i)}
-            </div>
-          ))}
+          {items.length === 0
+            ? <div className="list-empty">
+                <span>{emptyMsg || 'Nothing here yet'}</span>
+                <span className="list-empty-hint">Click + to add one</span>
+              </div>
+            : items.map((item, i) => (
+              <div key={i} className={`list-item ${sel === i ? 'sel' : ''}`} onClick={() => onSel(i)}>
+                {getLabel(item, i)}
+              </div>
+            ))
+          }
         </div>
       </div>
       {sel === null || sel >= items.length
-        ? <div className="detail-empty">Select an item to edit</div>
+        ? <div className="detail-empty">
+            <p>Select an item to edit</p>
+            {items.length > 0 && <span>or click + to add a new one</span>}
+          </div>
         : <div className="detail-pane">{children}</div>
       }
     </div>
@@ -258,7 +344,8 @@ function useListEditor(data, onChange) {
   const update = (i, changes) => {
     const n = [...data]; n[i] = { ...n[i], ...changes }; onChange(n);
   };
-  const del = (i) => {
+  const del = (i, label) => {
+    if (!window.confirm(`Delete "${label}"? This cannot be undone.`)) return;
     onChange(data.filter((_, j) => j !== i));
     setSel(s => Math.min(s, data.length - 2));
   };
@@ -270,13 +357,42 @@ function useListEditor(data, onChange) {
   return { sel, setSel, update, del, move };
 }
 
+/* ─── Commit modal ───────────────────────────────────────────── */
+
+function CommitModal({ onCommit, onCancel, saving }) {
+  const [msg, setMsg] = useState('');
+  const ref = useRef(null);
+  useEffect(() => { ref.current?.focus(); }, []);
+  const submit = () => onCommit(msg.trim() || 'update content');
+  return (
+    <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onCancel()}>
+      <div className="modal">
+        <h3>Commit to GitHub</h3>
+        <p>Describe what you changed — shows up in your repo history.</p>
+        <Field
+          label="Commit message"
+          value={msg}
+          onChange={setMsg}
+          placeholder="add essay · update bio · add book"
+        />
+        <div className="modal-actions">
+          <button className="btn-cancel" onClick={onCancel}>Cancel</button>
+          <button className="btn-commit" onClick={submit} disabled={saving}>
+            {saving ? 'Committing…' : 'Commit →'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Section editors ────────────────────────────────────────── */
 
 function SiteEditor({ data, onChange }) {
   const set = (k, v) => onChange({ ...data, [k]: v });
   return (
     <div className="simple-pane">
-      <div className="sec-head"><h2>Site</h2></div>
+      <div className="sec-head"><h2>Site settings</h2></div>
       <Field label="Name" value={data.name} onChange={v => set('name', v)} />
       <Field label="Tagline" value={data.tag} onChange={v => set('tag', v)} type="textarea" rows={2} />
       <Field label="Domain" value={data.domain} onChange={v => set('domain', v)} />
@@ -285,35 +401,86 @@ function SiteEditor({ data, onChange }) {
   );
 }
 
-function EssaysEditor({ data, onChange }) {
+function WritingsEditor({ data, onChange, domain }) {
   const { sel, setSel, update, del, move } = useListEditor(data, onChange);
+  // Track whether slug was manually edited for the current item
+  const slugManual = useRef(false);
+  const prevSel = useRef(sel);
+  useEffect(() => { if (sel !== prevSel.current) { slugManual.current = false; prevSel.current = sel; } }, [sel]);
+
   const add = () => {
     const today = new Date().toISOString().slice(0, 10);
-    const [y, m] = today.split('-');
-    const monthName = new Date(today).toLocaleDateString('en-US', { month: 'short' });
-    const e = { slug: 'new-essay', title: 'New Essay', date: today, dateLabel: `${monthName} ${y}`, readTime: '5 min', excerpt: '', body: [''] };
-    onChange([e, ...data]); setSel(0);
+    const e = {
+      slug: 'new-writing',
+      title: 'New Writing',
+      date: today,
+      dateLabel: toDateLabel(today),
+      readTime: '5 min',
+      excerpt: '',
+      body: [''],
+    };
+    onChange([e, ...data]); setSel(0); slugManual.current = false;
   };
+
+  const handleTitleChange = (v) => {
+    const changes = { title: v };
+    if (!slugManual.current) changes.slug = toSlug(v) || 'untitled';
+    update(sel, changes);
+  };
+
+  const handleSlugChange = (v) => {
+    slugManual.current = true;
+    update(sel, { slug: v });
+  };
+
+  const handleDateChange = (v) => {
+    const changes = { date: v };
+    const label = toDateLabel(v);
+    if (label) changes.dateLabel = label;
+    update(sel, changes);
+  };
+
   const essay = data[sel];
+  const previewUrl = essay && domain ? `https://${domain}/#/writing/${essay.slug}` : null;
+
   return (
-    <ListDetail items={data} getLabel={e => e.title || 'Untitled'} sel={sel} onSel={setSel} onAdd={add} sectionTitle="Essays">
+    <ListDetail
+      items={data}
+      getLabel={e => e.title || 'Untitled'}
+      sel={sel} onSel={setSel} onAdd={add}
+      sectionTitle="Writings"
+      emptyMsg="No writings yet"
+    >
       {essay && (
         <>
           <div className="sec-head">
-            <h2 style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{essay.title || 'Untitled'}</h2>
+            <h2 style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {essay.title || 'Untitled'}
+            </h2>
             <div className="sec-head-actions">
+              {previewUrl && (
+                <a className="preview-btn" href={previewUrl} target="_blank" rel="noreferrer">
+                  ↗ Preview
+                </a>
+              )}
               <MoveButtons onUp={() => move(sel, -1)} onDown={() => move(sel, 1)} />
-              <button className="del-btn" onClick={() => del(sel)}>Delete</button>
+              <button className="del-btn" onClick={() => del(sel, essay.title)}>Delete</button>
             </div>
           </div>
-          <Field label="Title" value={essay.title} onChange={v => update(sel, { title: v })} />
-          <Field label="Slug" value={essay.slug} onChange={v => update(sel, { slug: v })} placeholder="my-essay-slug" />
+          <Field label="Title" value={essay.title} onChange={handleTitleChange} />
+          <Field
+            label="Slug"
+            value={essay.slug}
+            onChange={handleSlugChange}
+            placeholder="my-writing-slug"
+            hint={!slugManual.current ? 'Auto-generated from title — edit to override' : ''}
+          />
           <div className="field-row">
-            <Field label="Date (YYYY-MM-DD)" value={essay.date} onChange={v => update(sel, { date: v })} />
-            <Field label="Date label" value={essay.dateLabel} onChange={v => update(sel, { dateLabel: v })} />
-            <Field label="Read time" value={essay.readTime} onChange={v => update(sel, { readTime: v })} />
+            <Field label="Date (YYYY-MM-DD)" value={essay.date} onChange={handleDateChange} />
+            <Field label="Display date" value={essay.dateLabel} onChange={v => update(sel, { dateLabel: v })} hint="Auto-filled from date" />
+            <Field label="Read time" value={essay.readTime} onChange={v => update(sel, { readTime: v })} placeholder="5 min" />
           </div>
-          <Field label="Excerpt" value={essay.excerpt} onChange={v => update(sel, { excerpt: v })} type="textarea" rows={2} />
+          <Field label="Excerpt" value={essay.excerpt} onChange={v => update(sel, { excerpt: v })} type="textarea" rows={2} placeholder="Short summary shown on hover" />
           <BodyEditor paragraphs={essay.body} onChange={v => update(sel, { body: v })} />
         </>
       )}
@@ -329,14 +496,14 @@ function ProjectsEditor({ data, onChange }) {
   };
   const proj = data[sel];
   return (
-    <ListDetail items={data} getLabel={p => p.name} sel={sel} onSel={setSel} onAdd={add} sectionTitle="Projects">
+    <ListDetail items={data} getLabel={p => p.name} sel={sel} onSel={setSel} onAdd={add} sectionTitle="Projects" emptyMsg="No projects yet">
       {proj && (
         <>
           <div className="sec-head">
             <h2>{proj.name}</h2>
             <div className="sec-head-actions">
               <MoveButtons onUp={() => move(sel, -1)} onDown={() => move(sel, 1)} />
-              <button className="del-btn" onClick={() => del(sel)}>Delete</button>
+              <button className="del-btn" onClick={() => del(sel, proj.name)}>Delete</button>
             </div>
           </div>
           <div className="field-row">
@@ -345,7 +512,7 @@ function ProjectsEditor({ data, onChange }) {
           </div>
           <Field label="Description" value={proj.desc} onChange={v => update(sel, { desc: v })} type="textarea" rows={3} />
           <div className="field-row">
-            <Field label="Link (href)" value={proj.href} onChange={v => update(sel, { href: v })} />
+            <Field label="Link (href)" value={proj.href} onChange={v => update(sel, { href: v })} placeholder="https://..." />
             <Field label="Tags" value={proj.tags} onChange={v => update(sel, { tags: v })} placeholder="open source · typescript" />
           </div>
         </>
@@ -354,28 +521,29 @@ function ProjectsEditor({ data, onChange }) {
   );
 }
 
-function ExperienceEditor({ data, onChange }) {
-  const { sel, setSel, update, del, move } = useListEditor(data, onChange);
+function WorkEditor({ data, onChange }) {
+  const work = data.work || [];
+  const { sel, setSel, update, del, move } = useListEditor(work, v => onChange({ ...data, work: v }));
   const add = () => {
     const item = { role: 'New Role', where: '', when: '', desc: '' };
-    onChange([item, ...data]); setSel(0);
+    onChange({ ...data, work: [item, ...work] }); setSel(0);
   };
-  const item = data[sel];
+  const item = work[sel];
   return (
-    <ListDetail items={data} getLabel={e => e.role} sel={sel} onSel={setSel} onAdd={add} sectionTitle="Experience">
+    <ListDetail items={work} getLabel={e => `${e.role}${e.where ? ', ' + e.where : ''}`} sel={sel} onSel={setSel} onAdd={add} sectionTitle="Work" emptyMsg="No work experience yet">
       {item && (
         <>
           <div className="sec-head">
             <h2>{item.role}</h2>
             <div className="sec-head-actions">
               <MoveButtons onUp={() => move(sel, -1)} onDown={() => move(sel, 1)} />
-              <button className="del-btn" onClick={() => del(sel)}>Delete</button>
+              <button className="del-btn" onClick={() => del(sel, item.role)}>Delete</button>
             </div>
           </div>
           <Field label="Role" value={item.role} onChange={v => update(sel, { role: v })} />
           <div className="field-row">
-            <Field label="Where" value={item.where} onChange={v => update(sel, { where: v })} />
-            <Field label="When" value={item.when} onChange={v => update(sel, { when: v })} />
+            <Field label="Where" value={item.where} onChange={v => update(sel, { where: v })} placeholder="Company name" />
+            <Field label="When" value={item.when} onChange={v => update(sel, { when: v })} placeholder="2024 — now" />
           </div>
           <Field label="Description" value={item.desc} onChange={v => update(sel, { desc: v })} type="textarea" rows={3} />
         </>
@@ -384,44 +552,34 @@ function ExperienceEditor({ data, onChange }) {
   );
 }
 
-function NowEditor({ data, onChange }) {
-  const setUpdated = v => onChange({ ...data, updated: v });
-  const updBlock = (i, changes) => {
-    const blocks = [...data.blocks]; blocks[i] = { ...blocks[i], ...changes }; onChange({ ...data, blocks });
+function AcademicsEditor({ data, onChange }) {
+  const { sel, setSel, update, del, move } = useListEditor(data, onChange);
+  const add = () => {
+    const item = { name: 'New School', when: '', desc: '' };
+    onChange([item, ...data]); setSel(0);
   };
-  const addBlock = () => onChange({ ...data, blocks: [...data.blocks, { heading: 'New section', items: [''] }] });
-  const delBlock = (i) => onChange({ ...data, blocks: data.blocks.filter((_, j) => j !== i) });
+  const item = data[sel];
   return (
-    <div className="simple-pane" style={{ maxWidth: 640 }}>
-      <div className="sec-head"><h2>Now</h2></div>
-      <Field label="Last updated" value={data.updated} onChange={setUpdated} />
-      {data.blocks.map((block, i) => (
-        <div className="now-block" key={i}>
-          <div className="now-block-head">
-            <input
-              type="text"
-              value={block.heading}
-              onChange={e => updBlock(i, { heading: e.target.value })}
-              placeholder="Section heading"
-            />
-            <button className="del-btn" onClick={() => delBlock(i)}>Delete</button>
+    <ListDetail items={data} getLabel={e => e.name} sel={sel} onSel={setSel} onAdd={add} sectionTitle="Academics" emptyMsg="No academic entries yet">
+      {item && (
+        <>
+          <div className="sec-head">
+            <h2>{item.name}</h2>
+            <div className="sec-head-actions">
+              <MoveButtons onUp={() => move(sel, -1)} onDown={() => move(sel, 1)} />
+              <button className="del-btn" onClick={() => del(sel, item.name)}>Delete</button>
+            </div>
           </div>
-          <div className="field" style={{ margin: 0 }}>
-            <label>Items — one per line</label>
-            <textarea
-              value={block.items.join('\n')}
-              onChange={e => updBlock(i, { items: e.target.value.split('\n') })}
-              rows={Math.max(3, block.items.length + 1)}
-            />
-          </div>
-        </div>
-      ))}
-      <button className="text-btn" style={{ marginTop: 4 }} onClick={addBlock}>+ Add section</button>
-    </div>
+          <Field label="School / Program" value={item.name} onChange={v => update(sel, { name: v })} />
+          <Field label="When" value={item.when} onChange={v => update(sel, { when: v })} placeholder="2023 — 2025" />
+          <Field label="Description" value={item.desc} onChange={v => update(sel, { desc: v })} type="textarea" rows={2} />
+        </>
+      )}
+    </ListDetail>
   );
 }
 
-function ReadingEditor({ data, onChange }) {
+function LogsEditor({ data, onChange }) {
   const { sel, setSel, update, del } = useListEditor(data, onChange);
   const addGroup = () => { onChange([...data, { group: 'New group', books: [] }]); setSel(data.length); };
   const updBook = (gi, bi, changes) => {
@@ -432,26 +590,37 @@ function ReadingEditor({ data, onChange }) {
   const delBook = (gi, bi) => update(gi, { books: data[gi].books.filter((_, j) => j !== bi) });
   const group = data[sel];
   return (
-    <ListDetail items={data} getLabel={g => g.group} sel={sel} onSel={setSel} onAdd={addGroup} sectionTitle="Reading">
+    <ListDetail items={data} getLabel={g => g.group} sel={sel} onSel={setSel} onAdd={addGroup} sectionTitle="Logs" emptyMsg="No log groups yet">
       {group && (
         <>
           <div className="sec-head">
             <h2>{group.group}</h2>
-            <button className="del-btn" onClick={() => del(sel)}>Delete group</button>
+            <button className="del-btn" onClick={() => del(sel, group.group)}>Delete group</button>
           </div>
           <Field label="Group name" value={group.group} onChange={v => update(sel, { group: v })} />
           <div className="field">
             <label>Books</label>
-            {group.books.length === 0 && <div style={{ color: 'var(--ink-faint)', fontStyle: 'italic', fontSize: 13, marginBottom: 8 }}>No books yet</div>}
+            {group.books.length > 0 && (
+              <div className="book-col-head">
+                <span className="t">Title</span>
+                <span className="a">Author</span>
+                <span className="n">Note</span>
+              </div>
+            )}
+            {group.books.length === 0 && (
+              <div style={{ color: 'var(--ink-faint)', fontStyle: 'italic', fontSize: 13, marginBottom: 8 }}>
+                No books yet — click + to add one
+              </div>
+            )}
             {group.books.map((book, bi) => (
               <div className="book-row" key={bi}>
                 <input className="title" type="text" value={book.title} onChange={e => updBook(sel, bi, { title: e.target.value })} placeholder="Title" />
                 <input className="author" type="text" value={book.author} onChange={e => updBook(sel, bi, { author: e.target.value })} placeholder="Author" />
-                <input className="note" type="text" value={book.note} onChange={e => updBook(sel, bi, { note: e.target.value })} placeholder="Note" />
-                <button className="icon-btn" onClick={() => delBook(sel, bi)}>×</button>
+                <input className="note" type="text" value={book.note || ''} onChange={e => updBook(sel, bi, { note: e.target.value })} placeholder="Note" />
+                <button className="icon-btn" onClick={() => delBook(sel, bi)} title="Remove">×</button>
               </div>
             ))}
-            <button className="text-btn" style={{ marginTop: 6 }} onClick={() => addBook(sel)}>+ Add book</button>
+            <button className="text-btn" style={{ marginTop: 8 }} onClick={() => addBook(sel)}>+ Add book</button>
           </div>
         </>
       )}
@@ -461,7 +630,10 @@ function ReadingEditor({ data, onChange }) {
 
 function ContactEditor({ data, onChange }) {
   const update = (i, changes) => { const n = [...data]; n[i] = { ...n[i], ...changes }; onChange(n); };
-  const remove = (i) => onChange(data.filter((_, j) => j !== i));
+  const remove = (i, label) => {
+    if (!window.confirm(`Remove "${label}" contact?`)) return;
+    onChange(data.filter((_, j) => j !== i));
+  };
   const add = () => onChange([...data, { label: '', value: '', href: '#' }]);
   return (
     <div className="simple-pane" style={{ maxWidth: 680 }}>
@@ -479,7 +651,7 @@ function ContactEditor({ data, onChange }) {
           <input className="label" type="text" value={item.label} onChange={e => update(i, { label: e.target.value })} placeholder="email" />
           <input className="value" type="text" value={item.value} onChange={e => update(i, { value: e.target.value })} placeholder="hi@example.com" />
           <input className="href" type="text" value={item.href} onChange={e => update(i, { href: e.target.value })} placeholder="mailto:hi@example.com" />
-          <button className="icon-btn" onClick={() => remove(i)}>×</button>
+          <button className="icon-btn" onClick={() => remove(i, item.label || item.value)} title="Remove">×</button>
         </div>
       ))}
     </div>
@@ -492,9 +664,10 @@ function App() {
   const [content, setContent] = useState(null);
   const [info, setInfo] = useState({});
   const [dirty, setDirty] = useState(false);
-  const [section, setSection] = useState('essays');
+  const [section, setSection] = useState('writings');
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState(null);
+  const [showCommitModal, setShowCommitModal] = useState(false);
 
   const contentRef = useRef(null);
   const dirtyRef = useRef(false);
@@ -507,7 +680,8 @@ function App() {
       fetch('/api/content').then(r => r.json()),
       fetch('/api/info').then(r => r.json()),
     ]).then(([c, i]) => {
-      if (c.error) { setContent({ __error: c.error }); } else { setContent(c); }
+      if (c.error) setContent({ __error: c.error });
+      else setContent(c);
       setInfo(i);
     }).catch(e => setContent({ __error: e.message }));
   }, []);
@@ -517,7 +691,7 @@ function App() {
     const onKey = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 's') {
         e.preventDefault();
-        if (dirtyRef.current) doSave(contentRef.current);
+        if (dirtyRef.current) setShowCommitModal(true);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -536,17 +710,18 @@ function App() {
     setDirty(true);
   };
 
-  const doSave = async (c) => {
+  const doSave = async (commitMsg) => {
+    setShowCommitModal(false);
     setSaving(true);
+    const c = contentRef.current;
     try {
       const res = await fetch('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(c),
+        body: JSON.stringify({ ...c, __msg: commitMsg }),
       });
       const data = await res.json();
       if (res.ok) {
-        // Update __sha so the next save has the correct ref
         if (data.sha) setContent(prev => ({ ...prev, __sha: data.sha }));
         setDirty(false);
         showToast('Committed to GitHub ✓', 'ok');
@@ -557,7 +732,7 @@ function App() {
     setSaving(false);
   };
 
-  const showToast = (msg, type) => { setToast({ msg, type }); setTimeout(() => setToast(null), 3000); };
+  const showToast = (msg, type) => { setToast({ msg, type }); setTimeout(() => setToast(null), 3500); };
 
   if (!content) return <div className="loading">Loading…</div>;
 
@@ -577,14 +752,15 @@ function App() {
     </div>
   );
 
+  const domain = content.SITE?.domain;
   const navItems = [
-    ['site', 'Site', null],
-    ['essays', 'Essays', content.ESSAYS.length],
-    ['projects', 'Projects', content.PROJECTS.length],
-    ['experience', 'Work', null],
-    ['now', 'Now', null],
-    ['reading', 'Reading', null],
-    ['contact', 'Contact', null],
+    ['site',      'Site',      null],
+    ['writings',  'Writings',  content.ESSAYS?.length],
+    ['projects',  'Projects',  content.PROJECTS?.length],
+    ['work',      'Work',      null],
+    ['academics', 'Academics', null],
+    ['logs',      'Logs',      content.LOGS?.length],
+    ['contact',   'Contact',   null],
   ];
 
   return (
@@ -592,17 +768,23 @@ function App() {
       <header className="topbar">
         <div className="brand">repocraft<span className="brand-dot">.</span></div>
         <div className="topbar-path">
-          {info.repo && <a href={`https://github.com/${info.repo}`} target="_blank" style={{ color: 'var(--ink-faint)', textDecoration: 'none' }}>{info.repo}</a>}
-          {info.branch && <span style={{ marginLeft: 6, opacity: 0.6 }}>/ {info.branch}</span>}
+          {info.repo && <a href={`https://github.com/${info.repo}`} target="_blank">{info.repo}</a>}
+          {info.branch && <span style={{ marginLeft: 6, opacity: 0.5 }}>/ {info.branch}</span>}
         </div>
+        {domain && (
+          <a className="site-link" href={`https://${domain}`} target="_blank" rel="noreferrer">
+            ↗ {domain}
+          </a>
+        )}
         <button
           className={`save-btn ${dirty ? 'dirty' : ''}`}
-          onClick={() => doSave(contentRef.current)}
+          onClick={() => dirty && setShowCommitModal(true)}
           disabled={!dirty || saving}
         >
           {saving ? 'Committing…' : dirty ? 'Commit to GitHub' : 'All saved ✓'}
         </button>
       </header>
+
       <div className="body">
         <nav className="sidebar">
           {navItems.map(([id, label, count]) => (
@@ -613,15 +795,24 @@ function App() {
           ))}
         </nav>
         <main className="main">
-          {section === 'site'       && <SiteEditor       data={content.SITE}       onChange={v => update('SITE', v)} />}
-          {section === 'essays'     && <EssaysEditor     data={content.ESSAYS}     onChange={v => update('ESSAYS', v)} />}
-          {section === 'projects'   && <ProjectsEditor   data={content.PROJECTS}   onChange={v => update('PROJECTS', v)} />}
-          {section === 'experience' && <ExperienceEditor data={content.EXPERIENCE} onChange={v => update('EXPERIENCE', v)} />}
-          {section === 'now'        && <NowEditor        data={content.NOW}        onChange={v => update('NOW', v)} />}
-          {section === 'reading'    && <ReadingEditor    data={content.READING}    onChange={v => update('READING', v)} />}
-          {section === 'contact'    && <ContactEditor    data={content.CONTACT}    onChange={v => update('CONTACT', v)} />}
+          {section === 'site'      && <SiteEditor      data={content.SITE}       onChange={v => update('SITE', v)} />}
+          {section === 'writings'  && <WritingsEditor  data={content.ESSAYS}     onChange={v => update('ESSAYS', v)} domain={domain} />}
+          {section === 'projects'  && <ProjectsEditor  data={content.PROJECTS}   onChange={v => update('PROJECTS', v)} />}
+          {section === 'work'      && <WorkEditor      data={content.EXPERIENCE} onChange={v => update('EXPERIENCE', v)} />}
+          {section === 'academics' && <AcademicsEditor data={content.ACADEMICS}  onChange={v => update('ACADEMICS', v)} />}
+          {section === 'logs'      && <LogsEditor      data={content.LOGS}       onChange={v => update('LOGS', v)} />}
+          {section === 'contact'   && <ContactEditor   data={content.CONTACT}    onChange={v => update('CONTACT', v)} />}
         </main>
       </div>
+
+      {showCommitModal && (
+        <CommitModal
+          onCommit={doSave}
+          onCancel={() => setShowCommitModal(false)}
+          saving={saving}
+        />
+      )}
+
       {toast && <div className={`toast ${toast.type}`}>{toast.msg}</div>}
     </div>
   );
